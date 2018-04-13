@@ -1,4 +1,4 @@
-# registryTracker
+# trackinDragon
 
 A simple tool to get data from a Windows Registry, extract any historical BSSIDs that are stored in the registry, and then geolocate those BSSIDs if possible. This project was created for USMA Dept. of EECS CS483 Digital Forensics class.
 
