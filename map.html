@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Windows Registry Locator</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 90%;
+      }
+      #uploader {
+        height: 10%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #uploader {
+        display: inline-block;
+        vertical-align:top;
+      }
+
+      #unfoundDisplay {
+        display: inline-block;
+        padding-left: 80px;
+        vertical-align:top;
+      }
+
+      #instructions {
+        display: inline-block;
+        padding-left: 80px;
+        vertical-align:top;
+      }
+    </style>
+  </head>
+  <body>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAAGsJRA7pJaG5u8SvrwJWRTkFAxkCaXg&callback=initMap">
+    </script>
+
+    <script>
+      var formatted;
+      var result;
+      var map;
+      var markers = [];
+      var compPath;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5,
+          center: {lat: 39.263110, lng: -99.079066},
+          mapTypeId: 'terrain'
+        });
+      }
+    </script>
+    <div id="uploader">
+      <script type="text/javascript" src="./upload.js"></script>
+      <input type="file" id="selectFiles" value="Import"><br>
+      <button id="import">Import</button>
+      <input onclick="deleteMarkersAndPath();" type=button value="Delete Markers">
+      <script>
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkersAndPath() {
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+            document.getElementById('unfound').innerHTML = "";
+          }
+          markers = [];
+          compPath.setMap(null);
+        }
+      </script>
+    </div>
+    <div id="unfoundDisplay">
+      <p>These SSID/BSSID pairs could not be found on WiGLE or Google Geocode API.</p>
+      <p id="unfound"></p>
+    </div>
+    <div id="instructions">
+      <p>The red IDs are those found on the WiGLE API, with a high degree of confidence.</p>
+      <br>
+      <p>The blue IDs are those found via Google API, with a lower degree of confidence.</p>
+      <p id="unfound"></p>
+    </div>
+    <div id="map"></div>
+  </body>
+</html>
