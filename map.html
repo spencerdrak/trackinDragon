@@ -5,15 +5,12 @@
     <meta charset="utf-8">
     <title>Trackin' Dragon</title>
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
       #map {
         height: 90%;
       }
       #uploader {
         height: 10%;
       }
-      /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
         margin: 0;
@@ -62,7 +59,6 @@
       <button id="import">Import</button>
       <input onclick="deleteMarkersAndPath();" type=button value="Delete Markers">
       <script>
-        // Deletes all markers in the array by removing references to them.
         function deleteMarkersAndPath() {
           for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);

@@ -32,7 +32,6 @@ window.onload=function(){
         '<p> First Connection Time: ' + JSON.stringify(result.goodData[key].dtg) + '</p>'+
         '</div>'+
         '</div>';
-        //key + "\n" + JSON.stringify(result.goodData[key].bssid) + "\n" + JSON.stringify(result.goodData[key].dtg); 
         var infowindow = new google.maps.InfoWindow();
         var coordSource = JSON.stringify(result.goodData[key].source);
         if(coordSource == "1"){

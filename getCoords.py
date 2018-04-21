@@ -13,7 +13,6 @@ def getJSON(bssid,wigleKey):
     outputs:
         returns a response from the database. Data is sanitized in the receiving function
     '''
-    #print(bssid)
     bssidList = bssid.strip().split(",")
 
     json_headers = {
@@ -22,9 +21,7 @@ def getJSON(bssid,wigleKey):
     }
     url = 'https://api.wigle.net/api/v2/network/search?onlymine=false&freenet=false&paynet=false&netid={}%3A{}%3A{}%3A{}%3A{}%3A{}'.format(bssidList[0],bssidList[1],bssidList[2],bssidList[3],bssidList[4],bssidList[5])
     s = requests.session()
-    #print("session created")
     resp = s.get(url, headers=json_headers)
-    #print("response received")
     return resp
 
 def extractInfo(ssid,resp):
@@ -38,28 +35,16 @@ def extractInfo(ssid,resp):
         If the client made a bad query, then lat=long=0, and SSID = "Bad Query"
     '''
     status = resp.status_code
-    #if(status == 200):
-    #    print("OK, query returned")
-    #else:
-    #    print("Server returned: " + str(status))
-    #    return 0,0,"Bad Query"
-    #print(resp.text)
     jsonResp = json.loads(resp.text)
 
     if(jsonResp["totalResults"] == 0):
         lat = 0
         lon = 0
-        # print("Latitude: " + str(lat))
-        # print("Longitude: " + str(lon))
-        # print("Network SSID: " + str(ssid))
         return lat,lon,ssid,2
     else:
         lat = jsonResp["results"][0]["trilat"]
         lon = jsonResp["results"][0]["trilong"]
         ssid = jsonResp["results"][0]["ssid"]
-        # print("Latitude: " + str(lat))
-        # print("Longitude: " + str(lon))
-        # print("Network SSID: " + str(ssid))
         return (lat,lon,ssid,1)
 
 def ripReg(regFile):
@@ -93,13 +78,7 @@ def ripReg(regFile):
 
         zList1 = list(zip(nameList,bssidList))
 
-        # print(len(zList1))
-        # print(zList1)
-
         zList2 = list(zip(dateNameList,dateList))
-
-        # print(len(zList2))
-        # print(zList2)
 
         zList1.sort(key=lambda x: x[0])
         zList2.sort(key=lambda x: x[0])
@@ -109,7 +88,6 @@ def ripReg(regFile):
             resultList.append((zList1[i][0],zList1[i][1],decodeDate(zList2[i][1])))
             #name,bssid,date
 
-        #print(resultList)
         return resultList
 
  
@@ -152,10 +130,7 @@ def decodeDate(dateString):
     hour = str(int(hourHex,16))
     minute = str(int(minHex,16))
     sec = str(int(secHex,16))
-    #print("{},{},{},{},{},{},{}".format(year,month,weekday,date,hour,minute,sec))
     dt = datetime.datetime(int(year),int(month),int(date),int(hour),int(minute),int(sec))
-    #print(dt)
-    #print(dt.weekday())
     #TODO- needs work. Python .weekday() seems to be one off from the given weekday in the registry.
     return dt
 
@@ -221,9 +196,7 @@ def getGeocodeResp(searchTerm,googleKey):
     '''
     url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&key={}&address={}".format(googleKey,searchTerm.replace(" ","%20"))
     s = requests.session()
-    #print("session created")
     resp = s.get(url)
-    #print("response received")
     return resp
 
 
@@ -290,15 +263,6 @@ def main(inFile,googleKey,wigleKey):
 
 
 if __name__ == "__main__":
-    #j = getJSON("68:72:51:54:68:da")
-    #lat,lon,ssid = extractInfo(j)
-    #j = getJSON("14:91:82:a6:21:41")
-    #lat,lon,ssid = extractInfo(j)
-    #j = getJSON("a0:04:60:1a:ae:53")
-    #lat,lon,ssid = extractInfo(j)
-    #j = getJSON("68:72:51:54:6b:da")
-    #lat,lon,ssid = extractInfo(j)
-    #r = ripReg("USMAcomp.txt")
     if(len(sys.argv) < 2):
         sys.exit("Please include a filename argument. Exiting...")
     main(sys.argv[1],sys.argv[2],sys.argv[3])
