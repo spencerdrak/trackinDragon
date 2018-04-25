@@ -206,7 +206,7 @@ def getGeocodeResp(searchTerm,googleKey):
     return resp
 
 
-def main(inFile,googleKey,wigleKey):
+def main(inFile,wigleKey,googleKey):
     '''
     returns a list of all the info needed. SSID, BSSID, dateconnected, lat, long.
     params: 
