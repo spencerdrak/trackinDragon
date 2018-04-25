@@ -120,6 +120,8 @@ def decodeDate(dateString):
         dateString- a registry date string in hex
     output: 
         a python datetime.datetime object with the date time that the network was connected to.
+    Works Cited:
+        I used the following link to learn how to decode the dates: http://cfed-ttf.blogspot.com/2009/08/decoding-datecreated-and.html
     '''
     lst = dateString.split(",")
     yearHex = lst[1] + lst[0]
@@ -242,6 +244,8 @@ def main(inFile,wigleKey,googleKey):
 
     goodData.sort(key=lambda x: x[2])
     trueNotFoundList.sort(key=lambda x: x[2])
+
+    # Works Cited: In the following section, I used the Python Cookbook, 3rd Edition, Ch 6.2 to properly write the JSON data.
 
     outJSON = {}
     outJSON["registryFile"] = inFile

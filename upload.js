@@ -1,5 +1,7 @@
+// Works Cited: I adapted the following code from various examples in the Google Maps API: https://developers.google.com/maps/documentation/javascript/tutorial
 window.onload=function(){
   document.getElementById('import').onclick = function() {
+    //I adapted the answer from Maloric on the following Stackoverflow answer to help upload the JSON to the page: https://stackoverflow.com/questions/36127648/uploading-a-json-file-and-using-it
     var files = document.getElementById('selectFiles').files;
     if (files.length <= 0) {
       return false;
