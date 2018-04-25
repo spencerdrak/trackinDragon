@@ -13,9 +13,9 @@ To run this script, please follow the steps below.
     3. Keep dropping down the keys until you reach the NetworkList key at this path: \Software\Microsoft\Windows NT\CurrentVersion\NetworkList 
     4. Right click on the “NetworkList” Key and then click export.
     5. Save this file to the _registryTracker_ directory.
-* Then, you can run `python3 getCoords.py regTextFile.reg [WiGLE API KEY] [Google Geocode API KEY]` to get the output from the file. See below for notes on these keys. This will output a JSON with all the data you need, which is the input filename concatenated with _data.json_. Save this for later use. Then, it will also print out two lists, one with SSIDs it found, and the other with SSIDs it couldn't.
+* Then, you can run `python3 getCoords.py regFile.reg [WiGLE API KEY] [Google Geocode API KEY]` to get the output from the file. See below for notes on these keys. This will output a JSON with all the data you need, which is the input filename concatenated with _data.json_. Save this for later use. Then, it will also print out two lists, one with SSIDs it found, and the other with SSIDs it couldn't.
 * Fire up the _map.html_ webpage on your browser. This will only run locally and is not hosted as an HTTP server (yet).
-* Finally, import the JSON from earlier, hit enter, and BAM. You are viewing the locations of the SSIDs in the registry file.
+* Finally, import the JSON from earlier, hit enter, and the page will display the locations of the SSIDs in the registry file. Before importing any new files, it is best to delete the old markers so that map will not get cluttered.
 
 Google Geocode is a service that allows you to turn an address or name into a latitutde and longitude. In order to get a Google Geocode API Key, you'll need to visit here: https://developers.google.com/maps/documentation/geocoding/get-api-key
 
