@@ -36,7 +36,7 @@ def extractInfo(ssid,resp):
     '''
     status = resp.status_code
     jsonResp = json.loads(resp.text)
-    print(jsonResp)
+
     if(jsonResp["totalResults"] == 0):
         lat = 0
         lon = 0
