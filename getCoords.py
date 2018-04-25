@@ -55,7 +55,13 @@ def ripReg(regFile):
     outputs:
         a list of tuples containing SSID, BSSID, and the connection date. Sorted by SSID
     ''' 
-    with open(regFile,"r") as inFile:
+    txtReg = regFile.split(".")[0] + ".txt"
+    with open(regFile, 'rb') as source_file:
+        with open(txtReg, 'w+b') as dest_file:
+            contents = source_file.read()
+            dest_file.write(contents.decode('utf-16').encode('utf-8'))
+
+    with open(txtReg,"r") as inFile:
         nameList = []
         bssidList = []
         dateNameList =[]
@@ -263,6 +269,6 @@ def main(inFile,wigleKey,googleKey):
 
 
 if __name__ == "__main__":
-    if(len(sys.argv) < 2):
-        sys.exit("Please include a filename argument. Exiting...")
+    if(len(sys.argv) < 4):
+        sys.exit("Usage: python3 getCoords.py regTextFile.reg [WiGLE API KEY] [Google Geocode API KEY]")
     main(sys.argv[1],sys.argv[2],sys.argv[3])
