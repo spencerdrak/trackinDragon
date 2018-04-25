@@ -13,8 +13,7 @@ To run this script, please follow the steps below.
     3. Keep dropping down the keys until you reach the NetworkList key at this path: \Software\Microsoft\Windows NT\CurrentVersion\NetworkList 
     4. Right click on the “NetworkList” Key and then click export.
     5. Save this file to the _registryTracker_ directory.
-* Next, you'll need to decode the files to a regular text format using the following command on linux: `iconv -f utf-16 -t utf-8 input_file.reg > output_file.txt`
-* Then, you can run `python3 getCoords.py regTextFile.txt [WiGLE API KEY] [Google Geocode API KEY]` to get the output from the file. See below for notes on these keys. This will output a JSON with all the data you need, which is the input filename concatenated with _data.json_. Save this for later use. Then, it will also print out two lists, one with SSIDs it found, and the other with SSIDs it couldn't.
+* Then, you can run `python3 getCoords.py regTextFile.reg [WiGLE API KEY] [Google Geocode API KEY]` to get the output from the file. See below for notes on these keys. This will output a JSON with all the data you need, which is the input filename concatenated with _data.json_. Save this for later use. Then, it will also print out two lists, one with SSIDs it found, and the other with SSIDs it couldn't.
 * Fire up the _map.html_ webpage on your browser. This will only run locally and is not hosted as an HTTP server (yet).
 * Finally, import the JSON from earlier, hit enter, and BAM. You are viewing the locations of the SSIDs in the registry file.
 
