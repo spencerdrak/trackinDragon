@@ -11,7 +11,7 @@ To run this script, please follow the steps below.
     1. Go to the windows start menu, and type “regedit.” Click on it, then hit yes when you are prompted.
     2. Drop down the “Computer” key if it isn’t already, and then drop down the “HKEY_LOCAL_MACHINE”
     3. Keep dropping down the keys until you reach the NetworkList key at this path: \Software\Microsoft\Windows NT\CurrentVersion\NetworkList 
-    4. Right click on the “NetworkList” Key and then click export.
+    4. Right click on the “NetworkList” Key and then ensure that you are exporting only the selected branch, not the entire Registry. Click on export.
     5. Save this file to the _registryTracker_ directory.
 * Then, you can run `python3 getCoords.py regFile.reg [WiGLE API KEY] [Google Geocode API KEY]` to get the output from the file. See below for notes on these keys. This will output a JSON with all the data you need, which is the input filename concatenated with _data.json_. Save this for later use. Then, it will also print out two lists, one with SSIDs it found, and the other with SSIDs it couldn't.
 * Fire up the _map.html_ webpage on your browser. This will only run locally and is not hosted as an HTTP server (yet).
