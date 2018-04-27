@@ -23,13 +23,18 @@
 
       #unfoundDisplay {
         display: inline-block;
-        padding-left: 80px;
+        padding-left: 40px;
         vertical-align:top;
       }
 
       #instructions {
         display: inline-block;
-        padding-left: 80px;
+        padding-left: 10px;
+        vertical-align:top;
+      }
+      #pic {
+        display: inline-block;
+        padding-left: 10px;
         vertical-align:top;
       }
     </style>
@@ -48,7 +53,7 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 5,
-          center: {lat: 39.263110, lng: -99.079066},
+          center: {lat: 36.263110, lng: -99.079066},
           mapTypeId: 'terrain'
         });
       }
@@ -79,6 +84,9 @@
       <p>The red IDs are those found on the WiGLE API, with a high degree of confidence.</p>
       <p>The blue IDs are those found via Google API, with a lower degree of confidence.</p>
       <p id="unfound"></p>
+    </div>
+    <div id="pic">
+      <img src="test.jpeg" alt="Trackin' Dragon">
     </div>
     <div id="map"></div>
   </body>
