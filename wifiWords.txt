@@ -1,0 +1,12 @@
+wifi
+guest
+net
+network
+hotspot
+4G
+2.4Ghz
+5Ghz
+free
+visitor
+access
+accesspoint
