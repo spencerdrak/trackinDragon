@@ -1,8 +1,12 @@
 # trackinDragon
 
+![Alt text](trackinDragon.jpg?raw=true)
+
 A simple tool to get data from a Windows Registry, extract any historical BSSIDs that are stored in the registry, and then geolocate those BSSIDs if possible. This project was created for USMA Dept. of EECS CS483 Digital Forensics class.
 
 Thanks to the WiGLE team for allowing use of their database for this project and to the Google team for the use of their API services.
+
+Also, thanks to Gus for drawing the logo for this project. 
 
 Special thanks to the CS483 advisors/instructors for their help in getting this project started.
 
