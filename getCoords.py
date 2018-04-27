@@ -139,7 +139,6 @@ def decodeDate(dateString):
     minute = str(int(minHex,16))
     sec = str(int(secHex,16))
     dt = datetime.datetime(int(year),int(month),int(date),int(hour),int(minute),int(sec))
-    #TODO- needs work. Python .weekday() seems to be one off from the given weekday in the registry.
     return dt
 
 def createWordSet():
@@ -172,10 +171,12 @@ def checkBadPlaces(badList,googleKey):
     for item in badList:
         ssid = item[0]
         lowCaseSSID = ssid.lower()
+        #Works Cited: I used Louis LC's answer on Stackoverflow for this answer: https://stackoverflow.com/questions/1059559/split-strings-with-multiple-delimiters	
         wordList = lowCaseSSID.replace('-',' ').replace('_',' ').split()
         searchList = []
         for word in wordList:
             if word not in badWordSet:
+                #Works Cited: I used RocketDOnkey's answer on stack overflow for this line of code: https://docs.google.com/document/d/1ZntkDoxq8gdkKfparz0AzoMzIG4NOXvSh4tLRvqLTo8/edit#heading=h.z98s3jdz4uwn
                 result = ''.join([letter for letter in word if not letter.isdigit()])
                 searchList.append(result)
 
@@ -246,7 +247,7 @@ def main(inFile,wigleKey,googleKey):
     trueNotFoundList.sort(key=lambda x: x[2])
 
     # Works Cited: In the following section, I used the Python Cookbook, 3rd Edition, Ch 6.2 to properly write the JSON data.
-
+    # Works Cited: I also used portions of Martijn Pieters solution to build the JSON. https://stackoverflow.com/questions/23110383/how-to-dynamically-build-a-json-object- with-python. 
     outJSON = {}
     outJSON["registryFile"] = inFile
     outJSON["analysisTime"] = str(datetime.datetime.now())

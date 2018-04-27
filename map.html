@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+<!--The Google Geocode API formed the template for this code-->
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Trackin' Dragon</title>
+    <!--I used Guillermo Ruffino's answer to format CSS to stack things side by side: https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side-->
     <style>
       #map {
         height: 90%;
@@ -66,6 +68,8 @@
       <button id="import">Import</button>
       <input onclick="deleteMarkersAndPath();" type=button value="Delete Markers">
       <script>
+        //I used Avarind Asok's answer to delete the lines from the path. https://stackoverflow.com/questions/9511474/google-maps-api-v3-remove-all-polylines
+        // I also used Google Maps API for how to delete the markers. 
         function deleteMarkersAndPath() {
           for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(null);
