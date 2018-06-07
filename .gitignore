@@ -2,5 +2,6 @@
 *.csv
 *.txt
 *.json
+*.plist
 /.vscode/*
 !wifiWords.txt
