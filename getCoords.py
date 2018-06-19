@@ -31,8 +31,8 @@ def extractInfo(ssid,resp):
         resp: See https://api.wigle.net/swagger for information on the format of the response JSON object
     output:
         tuple containing the latitude, longitude, and network SSID if avaialble. 
-        If the search comes back negative, lat=long=0, and SSID = "No Network Found"
-        If the client made a bad query, then lat=long=0, and SSID = "Bad Query"
+        If no results are found, last elem in tuple is a 2
+        If a result is found, last elem is 1
     '''
     status = resp.status_code
     jsonResp = json.loads(resp.text)
@@ -91,9 +91,10 @@ def ripRegWindows(regFile):
         resultList = []
 
         for i in range(0,len(zList1)):
-            resultList.append((zList1[i][0],zList1[i][1],decodeDate(zList2[i][1])))
+            bssidDict = {}
+            bssidDict[0] = zList1[i][1]
+            resultList.append((zList1[i][0],bssidDict,decodeDate(zList2[i][1])))
             #name,bssid,date
-
         return resultList
 
  
@@ -163,6 +164,7 @@ def checkBadPlaces(badList,googleKey):
         badList- the list of tuples that WiGLE was unable to locate. 
     output: 
         two python lists of tuples - (SSID, BSSID, datetime.datetime, lat, long). First one is places it could locate, second one is places that remain unknown.
+        the status integers are like this- 3 means no results found, 2 means some results found in the Google database
     '''
     newFoundList = []
     newBadList = []
@@ -221,13 +223,20 @@ def main(inFile,wigleKey,googleKey):
     print("Ripped the data from the Reg File")
     lst.sort(key=lambda x: x[2]) #sort by date
     finalList = []
-    for item in lst:
-        if(len(item[1].split(","))==6):
-            print(item[0])
-            j = getJSON(item[1],wigleKey)
-            lat,lon,ssid,status = extractInfo(item[0],j)
-        if(ssid != "Bad Query"):
-            finalList.append((ssid,item[1],item[2],lat,lon,status))
+    for AP in lst:
+        for ind in range(len(AP[1])): #Loop through the dictionary of BSSIDs matching that name
+            bssid = AP[1][ind]
+            if(len(bssid.split(","))==6):
+                print(AP[0])
+                j = getJSON(bssid,wigleKey)
+                lat,lon,ssid,status = extractInfo(AP[0],j)
+            if(status == 1 and ssid != "Bad Query"):
+                finalList.append((ssid,AP[1],AP[2],lat,lon,status))
+                continue
+            else:
+                finalList.append((ssid,AP[1],AP[2],lat,lon,status))
+
+    print("finalList " + str(len(finalList)))
 
     notFound = []
     goodData = []
@@ -267,7 +276,7 @@ def main(inFile,wigleKey,googleKey):
 
     print(goodData)
     print(trueNotFoundList)
-        
+    print("Finished")
 
 
 
