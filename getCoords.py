@@ -4,6 +4,8 @@ import requests
 import json
 import datetime
 import sys
+import plistlib
+import argparse
 
 def getJSON(bssid,wigleKey):
     '''
@@ -46,6 +48,27 @@ def extractInfo(ssid,resp):
         lon = jsonResp["results"][0]["trilong"]
         ssid = jsonResp["results"][0]["ssid"]
         return (lat,lon,ssid,1)
+
+def ripRegMac(regFile):
+    '''
+    Gets the relevant info from the Mac Plist file provided. 
+    inputs:
+        regFile: a flat text file exported from Regedit program in windows.
+    outputs:
+        a list of tuples containing SSID, BSSID dictionary, and the connection date. Sorted by SSID
+    ''' 
+    p1 = plistlib.readPlist(regFile)
+    outList = []
+    for item in p1["KnownNetworks"]:
+        ssid = p1["KnownNetworks"][item]["SSIDString"]
+        bssidDict = {}
+        connectDate = p1["KnownNetworks"][item]["LastConnected"]
+        count = 0 
+        for leaky in p1["KnownNetworks"][item]["BSSIDList"]:
+            bssidDict[count] = leaky["LEAKY_AP_BSSID"]
+            count += 1
+        outList.append((ssid,bssidDict,connectDate))
+    print(outList)
 
 def ripRegWindows(regFile):
     '''
@@ -124,6 +147,7 @@ def decodeDate(dateString):
     Works Cited:
         I used the following link to learn how to decode the dates: http://cfed-ttf.blogspot.com/2009/08/decoding-datecreated-and.html
     '''
+    
     lst = dateString.split(",")
     yearHex = lst[1] + lst[0]
     monthHex = lst[3] + lst[2]
@@ -285,4 +309,7 @@ def main(inFile,wigleKey,googleKey):
 if __name__ == "__main__":
     if(len(sys.argv) < 4):
         sys.exit("Usage: python3 getCoords.py regTextFile.reg [WiGLE API KEY] [Google Geocode API KEY]")
+    parser.add_argument("-f", "--file", dest="plistFilename",help="write report to FILE", metavar="FILE")
+    parser.add_argument("-n", dest="n", default=10, type=int, help="how many lines get printed")
+    parser.add_argument("-q", "--quiet", action="store_false", dest="verbose",default=True,help="don't print status messages to stdout")
     main(sys.argv[1],sys.argv[2],sys.argv[3])

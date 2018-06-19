@@ -6,14 +6,19 @@ def ripRegMac(regFile):
     inputs:
         regFile: a flat text file exported from Regedit program in windows.
     outputs:
-        a list of tuples containing SSID, BSSID, and the connection date. Sorted by SSID
+        a list of tuples containing SSID, BSSID dictionary, and the connection date. Sorted by SSID
     ''' 
     p1 = plistlib.readPlist(regFile)
     outList = []
     for item in p1["KnownNetworks"]:
+        ssid = p1["KnownNetworks"][item]["SSIDString"]
+        bssidDict = {}
+        connectDate = p1["KnownNetworks"][item]["LastConnected"]
+        count = 0 
         for leaky in p1["KnownNetworks"][item]["BSSIDList"]:
-            print(leaky["LEAKY_AP_BSSID"])
-            #outList.append(["KnownNetworks"][item]["SSIDString"],mac,p1["KnownNetworks"][item]["LastConnected"])
+            bssidDict[count] = leaky["LEAKY_AP_BSSID"]
+            count += 1
+        outList.append((ssid,bssidDict,connectDate))
     print(outList)
 
 
