@@ -49,9 +49,9 @@ def extractInfo(ssid,resp):
 
 def ripRegWindows(regFile):
     '''
-    Gets the relevant info from the registry file provided. 
+    Gets the relevant info from the Windows registry file provided. 
     inputs:
-        regFile: a flat text file exported from Regedit program in windows.
+        regFile: an exported registry file frmo the Regedit program in windows.
     outputs:
         a list of tuples containing SSID, BSSID, and the connection date. Sorted by SSID
     ''' 
@@ -213,7 +213,7 @@ def main(inFile,wigleKey,googleKey):
     '''
     returns a list of all the info needed. SSID, BSSID, dateconnected, lat, long.
     params: 
-        inFile- the registry file in question. Must be a flat text file exported from Regedit program in windows.
+        inFile- the registry file in question. Must be the file exported from Regedit program in windows.
     output: 
         a python list of tuples - (SSID, BSSID, datetime.datetime, lat, long). Includes empty hits from the database, no malformed queries.
     '''
