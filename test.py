@@ -1,5 +1,9 @@
 import plistlib
 
-p1 = plistlib.readPlist("com.apple.airport.preferences.plist")
-for item in p1["KnownNetworks"]:
-    print(str(item))
+def ripRegMac(regFile):
+    p1 = plistlib.readPlist(regFile)
+    for item in p1["KnownNetworks"]:
+        print(p1["KnownNetworks"][item]["LastConnected"])
+
+
+ripRegMac("com.apple.airport.preferences.plist")

@@ -47,7 +47,7 @@ def extractInfo(ssid,resp):
         ssid = jsonResp["results"][0]["ssid"]
         return (lat,lon,ssid,1)
 
-def ripReg(regFile):
+def ripRegWindows(regFile):
     '''
     Gets the relevant info from the registry file provided. 
     inputs:
@@ -217,7 +217,7 @@ def main(inFile,wigleKey,googleKey):
     output: 
         a python list of tuples - (SSID, BSSID, datetime.datetime, lat, long). Includes empty hits from the database, no malformed queries.
     '''
-    lst = ripReg(inFile) #name,bssid,date
+    lst = ripRegWindows(inFile) #name,bssid,date
     print("Ripped the data from the Reg File")
     lst.sort(key=lambda x: x[2]) #sort by date
     finalList = []
