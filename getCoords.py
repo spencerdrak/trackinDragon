@@ -235,15 +235,21 @@ def getGeocodeResp(searchTerm,googleKey):
     return resp
 
 
-def main(inFile,wigleKey,googleKey):
+def main(inFile,wigleKey,googleKey,type):
     '''
     returns a list of all the info needed. SSID, BSSID, dateconnected, lat, long.
     params: 
-        inFile- the registry file in question. Must be the file exported from Regedit program in windows.
+        inFile- the registry file or plist in question
+        wigleKey - the WiGLE API Key
+        googleKey - the google geocode API key
+        type - the type of file given. 1 = windows registry, 2 = macOS plist
     output: 
         a python list of tuples - (SSID, BSSID, datetime.datetime, lat, long). Includes empty hits from the database, no malformed queries.
     '''
-    lst = ripRegWindows(inFile) #name,bssid,date
+    if type == 1:
+        lst = ripRegWindows(inFile) #name,bssid,date
+    if type == 2:
+        lst = ripRegMac(inFile)
     print("Ripped the data from the Reg File")
     lst.sort(key=lambda x: x[2]) #sort by date
     finalList = []
@@ -307,9 +313,14 @@ def main(inFile,wigleKey,googleKey):
 
 
 if __name__ == "__main__":
-    if(len(sys.argv) < 4):
-        sys.exit("Usage: python3 getCoords.py regTextFile.reg [WiGLE API KEY] [Google Geocode API KEY]")
-    parser.add_argument("-f", "--file", dest="plistFilename",help="write report to FILE", metavar="FILE")
-    parser.add_argument("-n", dest="n", default=10, type=int, help="how many lines get printed")
-    parser.add_argument("-q", "--quiet", action="store_false", dest="verbose",default=True,help="don't print status messages to stdout")
-    main(sys.argv[1],sys.argv[2],sys.argv[3])
+    parser = argparse.ArgumentParser(description='command line options for wifi parser')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-m", "--mac", dest="plistFilename",help="name/path of Plist file for macOS")
+    group.add_argument("-w", "--windows", dest="regFilename", help="name/path of windows Registry file")
+    parser.add_argument("-wk", "--wigleKey", dest = "wigleKey", help="Wigle Key for use with the Wigle Database", required=True)
+    parser.add_argument("-gk", "--googleKey", dest = "googleKey", help="Google Geocode API Key", required=True)
+    results = parser.parse_args()
+    if(not results.plistFilename):
+        main(results.regFilename,results.wigleKey,results.googleKey,1)
+    if(not results.regFilename):
+        main(results.plistFilename,results.wigleKey,results.googleKey,2)
