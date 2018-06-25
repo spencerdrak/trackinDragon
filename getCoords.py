@@ -6,6 +6,7 @@ import datetime
 import sys
 import plistlib
 import argparse
+import re
 
 def getJSON(bssid,wigleKey):
     '''
@@ -15,8 +16,7 @@ def getJSON(bssid,wigleKey):
     outputs:
         returns a response from the database. Data is sanitized in the receiving function
     '''
-    bssidList = bssid.strip().split(",")
-
+    bssidList = re.split(':|,', bssid.strip())
     json_headers = {
         'Accept': 'application/json',
         'Authorization': 'Basic {}'.format(wigleKey)
@@ -254,19 +254,14 @@ def main(inFile,wigleKey,googleKey,type):
     lst.sort(key=lambda x: x[2]) #sort by date
     finalList = []
     for AP in lst:
-        for ind in range(len(AP[1])): #Loop through the dictionary of BSSIDs matching that name
-            bssid = AP[1][ind]
-            if(len(bssid.split(","))==6):
-                j = getJSON(bssid,wigleKey)
-                print("extraction" + extractInfo(AP[0],j))
-                lat,lon,ssid,status = extractInfo(AP[0],j)
-                print(ssid)
-                if(status == 1 and ssid != "Bad Query"):
-                    finalList.append((ssid,AP[1],AP[2],lat,lon,status))
-                    continue
-                else:
-                    finalList.append((ssid,AP[1],AP[2],lat,lon,status))
-
+        ssid = AP[0]
+        bssidDict = AP[1]
+        for item in bssidDict:
+            bssid = bssidDict[item]
+            print(ssid + " " + bssidDict[item])
+            j = getJSON(bssid,wigleKey)
+            lat,lon,ssid,status = extractInfo(item[0],j)
+            print(lat,lon,ssid,status)
     print("finalList " + str(len(finalList)))
 
     notFound = []
