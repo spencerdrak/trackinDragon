@@ -68,7 +68,7 @@ def ripRegMac(regFile):
             bssidDict[count] = leaky["LEAKY_AP_BSSID"]
             count += 1
         outList.append((ssid,bssidDict,connectDate))
-    print(outList)
+    return outList
 
 def ripRegWindows(regFile):
     '''
@@ -250,21 +250,22 @@ def main(inFile,wigleKey,googleKey,type):
         lst = ripRegWindows(inFile) #name,bssid,date
     if type == 2:
         lst = ripRegMac(inFile)
-    print("Ripped the data from the Reg File")
+    print("Found " + str(len(lst)) + " WiFi Networks for analysis.")
     lst.sort(key=lambda x: x[2]) #sort by date
     finalList = []
     for AP in lst:
         for ind in range(len(AP[1])): #Loop through the dictionary of BSSIDs matching that name
             bssid = AP[1][ind]
             if(len(bssid.split(","))==6):
-                print(AP[0])
                 j = getJSON(bssid,wigleKey)
+                print("extraction" + extractInfo(AP[0],j))
                 lat,lon,ssid,status = extractInfo(AP[0],j)
-            if(status == 1 and ssid != "Bad Query"):
-                finalList.append((ssid,AP[1],AP[2],lat,lon,status))
-                continue
-            else:
-                finalList.append((ssid,AP[1],AP[2],lat,lon,status))
+                print(ssid)
+                if(status == 1 and ssid != "Bad Query"):
+                    finalList.append((ssid,AP[1],AP[2],lat,lon,status))
+                    continue
+                else:
+                    finalList.append((ssid,AP[1],AP[2],lat,lon,status))
 
     print("finalList " + str(len(finalList)))
 
